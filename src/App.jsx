@@ -1,10 +1,10 @@
-import GetWords from "./assets/api/GetWords"
+import NoOfWords from "./assets/components/NoOfWords"
 
 function App() {
 
   return (
     <>
-      <GetWords />
+      <NoOfWords />
     </>
   )
 }

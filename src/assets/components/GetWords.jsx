@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const GetWords = () => {
+const GetWords = ({ numberOfWords }) => {
     const [words, setWords] = useState([]);
 
     const fetchData = async () => {
@@ -17,10 +17,12 @@ const GetWords = () => {
         fetchData();
     }, []);
 
+    const first100Words = words.slice(1, numberOfWords);
+
     return (
         <div>
             <h1 className='text-3xl text-blue-700 mb-4'>Random Words</h1>
-            {words.join(' ')}
+            {first100Words.join(' ')}
         </div>
     );
 };
