@@ -3,27 +3,14 @@ import GetWords from "./GetWords";
 
 const NoOfWords = () => {
     const [numberOfWords, setNumberOfWords] = useState(10);
-    const [words, setWords] = useState([]);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch(
-                    `https://random-word-api.vercel.app/api?words=${numberOfWords}`
-                );
-                const data = await response.json();
-                setWords(data); // Update the words state with the fetched data
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
-
-        fetchData(); // Call the fetch function
-    }, [numberOfWords]);
     
     const handleButtonClick = (num) => {
         setNumberOfWords(num);
     }
+
+    useEffect(() => {
+        
+    })
 
     return (
         <div className="p-2">

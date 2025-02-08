@@ -15,7 +15,7 @@ const GetWords = ({ numberOfWords }) => {
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [numberOfWords]);
 
     const first100Words = words.slice(1, numberOfWords);
 
