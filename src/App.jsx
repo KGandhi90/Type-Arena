@@ -1,4 +1,3 @@
-import KeyDetector from "./assets/components/KeyDetector"
 import NoOfWords from "./assets/components/NoOfWords"
 
 function App() {
@@ -6,7 +5,6 @@ function App() {
   return (
     <>
       <NoOfWords />
-      <KeyDetector />
     </>
   )
 }

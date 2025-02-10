@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 import GetWords from "./GetWords";
+import TypingTest from "./TypingText";
 
 const NoOfWords = () => {
     const [numberOfWords, setNumberOfWords] = useState(500);
+    const [words, setWords] = useState("");
+    const [userInput, setUserInput] = useState("");
     const [reload, setReload] = useState(0);
+    
     
     const handleButtonClick = (num) => {
         setNumberOfWords(num);
+        setUserInput("");
         setReload(prev => prev + 1);
     }
 
@@ -20,7 +25,8 @@ const NoOfWords = () => {
             </div>
             <h1 className='text-3xl text-blue-700 mb-4'>Random Words</h1>
             <div className="w-full h-[9rem] overflow-hidden bg-red-400">
-                <GetWords numberOfWords={numberOfWords} reload={reload} />
+                <GetWords numberOfWords={numberOfWords} onWOrdsGenerated={setWords} reload={reload} />
+                <TypingTest words={words} userInput={userInput} setUserInput={setUserInput} />
             </div>
         </div>
     );
