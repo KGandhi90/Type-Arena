@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import GetWords from "./GetWords";
-import TypingTest from "./TypingText";
+import TypingTest from "./TypingTest";
 
 const NoOfWords = () => {
     const [numberOfWords, setNumberOfWords] = useState(10);
