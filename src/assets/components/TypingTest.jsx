@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
-const TypingTest = ({ words }) => {
-    const [userInput, setUserInput] = useState("");
+const TypingTest = ({ words, userInput, setUserInput }) => {
 
     useEffect(() => {
         const handleKeyPress = (event) => {
@@ -18,7 +17,8 @@ const TypingTest = ({ words }) => {
 
     useEffect(() => {
         setUserInput("");
-    }, [words]);
+    }, []);
+
 
     return (
         <div style={{ whiteSpace: "pre-wrap", wordBreak: "break-word" }}>
