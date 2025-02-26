@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useCallback } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import GetWords from "./GetWords";
 import TypingTest from "./TypingTest";
 
@@ -10,9 +10,9 @@ const Timer = () => {
     const [reload, setReload] = useState(0);
     const intervalRef = useRef(null);
 
-    useEffect(() => {
-        console.log("UserInput state updated : ", userInput);
-    }, [userInput])
+    // useEffect(() => {
+    //     console.log("UserInput state updated : ", userInput);
+    // }, [userInput])
 
     const startTimer = () => {
         if (!intervalRef.current && timer > 0) { // Start only if the timer is set
