@@ -8,8 +8,9 @@ const TypingTest = ({ words, userInput, setUserInput }) => {
             if (event.key.length === 1) {
                 setUserInput((prev) => {
                     const newInput = prev + event.key;
+                    const index = newInput.length - 1;
                     if(newInput.length <= words.length && words[newInput.length - 1] !== event.key){
-                        setIncorrectLetters((prevIncorrect) => [...prevIncorrect, newInput.length - 1]);
+                        setIncorrectLetters((prevIncorrect) => [...prevIncorrect, index]);
                     }
                     return newInput;
                 });
@@ -34,27 +35,29 @@ const TypingTest = ({ words, userInput, setUserInput }) => {
 
     return (
         <div>
-            <div style={{ whiteSpace: "pre-wrap", wordBreak: "break-word" }}>
-                {words.split(" ").map((word, wordIndex) => (
-                    <span key={wordIndex} style={{ display: "inline-block", marginRight: "4px" }}>
-                        {word.split("").map((char, charIndex) => {
-                            const index = words.slice(0, words.indexOf(word)).length + charIndex;
-                            const isTyped = index < userInput.length;
-                            const isCorrect = userInput[index] === char;
-                            const isIncorrect = incorrectLetters.includes(index);
-        
-                            return (
-                                <span
-                                    key={charIndex}
-                                    className={isTyped ? (isCorrect ? "text-white" : "text-red-500") : "text-black"}
-                                    style={{ display: "inline-block", whiteSpace: "pre" }}
-                                >
-                                    {char}
-                                </span>
-                            );
-                        })}
-                    </span>
-                ))}
+            <div className="w-full h-[9rem] overflow-hidden bg-red-400">
+                <div style={{ whiteSpace: "pre-wrap", wordBreak: "break-word" }}>
+                    {words.split(" ").map((word, wordIndex) => (
+                        <span key={wordIndex} style={{ display: "inline-block", marginRight: "4px" }}>
+                            {word.split("").map((char, charIndex) => {
+                                const index = words.slice(0, words.indexOf(word)).length + charIndex;
+                                const isTyped = index < userInput.length;
+                                const isCorrect = userInput[index] === char;
+                                const isIncorrect = incorrectLetters.includes(index);
+            
+                                return (
+                                    <span
+                                        key={charIndex}
+                                        className={isTyped ? (isCorrect ? "text-white" : "text-red-500") : "text-black"}
+                                        style={{ display: "inline-block", whiteSpace: "pre" }}
+                                    >
+                                        {char}
+                                    </span>
+                                );
+                            })}
+                        </span>
+                    ))}
+                </div>
             </div>
         </div>
     );

@@ -63,11 +63,10 @@ const Timer = () => {
                     </button>
                 ))}
             </div>
-            <h1 className='text-3xl text-blue-700 mb-4'>Random Words</h1>
             <div className="mt-4">
                 <h2 className="text-xl">{timer}</h2>
             </div>
-            <div className="w-full h-[9rem] overflow-hidden bg-red-400">
+            <div className="">
                 <GetWords numberOfWords={numberOfWords} onWordsGenerated={setWords} reload={reload} />
                 <TypingTest words={words} userInput={userInput} setUserInput={setUserInput} />
             </div>
