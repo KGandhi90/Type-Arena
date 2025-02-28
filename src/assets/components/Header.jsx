@@ -1,33 +1,23 @@
-import { useRef } from "react";
+import { useState } from "react";
 import NoOfWords from "./NoOfWords";
 import Timer from "./Timer";
-import TypingTest from "./TypingTest";
 
-const Header = () => {
-    const activeComponent = useRef("time");
-
-    const renderComponent = () => {
-        if(activeComponent.current === "words") return <NoOfWords />
-        return <Timer />
-    }
+const Header = ({ activeComponent, setActiveComponent }) => {
 
     return(
-        <div>
-            <button onClick={() => {
-                activeComponent.current === "words";
-                renderComponent();
-            }} className="outline rounded-sm mr-2">
-                Words
-            </button>
-            <button onClick={() => {
-                activeComponent.current === "time";
-                renderComponent();
-            }}>
-                Time
-            </button>
+        <div className="p-4">
+            <div className="">
+                <button onClick={() => setActiveComponent("words")} className="outline rounded-sm mr-4 p-2">
+                    Words
+                </button>
+                <button onClick={() => setActiveComponent("timer")} className="outline rounded-sm p-2">
+                    Time
+                </button>
+            </div>
 
             <div>
-                {renderComponent()}
+                {activeComponent === "words" && <NoOfWords activeComponent={activeComponent} />}
+                {activeComponent === "timer" && <Timer />}
             </div>
         </div>
     )

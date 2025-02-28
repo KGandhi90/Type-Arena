@@ -52,7 +52,7 @@ const Timer = () => {
     };
 
     return (
-        <div className="p-2">
+        <div>
             <div className="mb-4 mt-2">
                 {[15, 30, 60, 120].map((time) => (
                     <button key={time} className="mr-4 outline p-1 rounded-md" onClick={() => {

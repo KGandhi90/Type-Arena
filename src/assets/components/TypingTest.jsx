@@ -1,14 +1,17 @@
 import { useState, useEffect } from "react";
 
-const TypingTest = ({ words, userInput, setUserInput }) => {
+const TypingTest = ({ words, userInput, setUserInput, onTypingStart, onTypingEnd }) => {
     const [incorrectLetters , setIncorrectLetters] = useState([]);
 
     useEffect(() => {
         const handleKeyPress = (event) => {
             if (event.key.length === 1) {
+                if (userInput.length === 0) {
+                    onTypingStart();
+                }
                 setUserInput((prev) => {
                     const newInput = prev + event.key;
-                    const index = newInput.length - 1;
+                    const index = prev.length;
                     if(newInput.length <= words.length && words[newInput.length - 1] !== event.key){
                         setIncorrectLetters((prevIncorrect) => [...prevIncorrect, index]);
                     }
@@ -17,11 +20,16 @@ const TypingTest = ({ words, userInput, setUserInput }) => {
             } else if (event.key === "Backspace") {
                 setUserInput((prev) => prev.slice(0, -1));
             }
+            
+            if (userInput.length + 1 === words.length) {
+                onTypingEnd();
+            }
+
         };
 
         window.addEventListener("keydown", handleKeyPress);
         return () => window.removeEventListener("keydown", handleKeyPress);
-    }, [setUserInput, words]);
+    }, [userInput, words, setUserInput, onTypingStart, onTypingEnd]);
 
     useEffect(() => {
         setUserInput("");
@@ -29,7 +37,7 @@ const TypingTest = ({ words, userInput, setUserInput }) => {
     }, [setUserInput, words]);
 
     useEffect(() => {
-        console.log("Incorrect Letters : ", incorrectLetters);
+        console.log("Incorrect Letters : ", incorrectLetters.map((index) => words[index]));
     }, [incorrectLetters]);
 
 
