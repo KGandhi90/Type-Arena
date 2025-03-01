@@ -8,32 +8,45 @@ const NoOfWords = ({ activeComponent }) => {
     const [userInput, setUserInput] = useState("");
     const [reload, setReload] = useState(0);
     const [startTime, setStartTime] = useState(null);
-    const [endTime, setEndTime] = useState(null);
-    
-    const handleButtonClick = (num) => {
-        setNumberOfWords(num);
-        setUserInput("");
-        setReload(prev => prev + 1);
-        setStartTime(null);
-        setEndTime(null);
-    }
-
-    const handleTypingStart = () => {
-        if (!startTime) {
-            setStartTime(Date.now());
-        }
-    };
-
-    const handleTypingEnd = () => {
-        if (startTime && !endTime) {
-            setEndTime(Date.now());
-        }
-    };
+    const [finalTime, setFinalTime] = useState(null);
+    const [incorrectLetters, setIncorrectLetters] = useState([]);
 
     const reloadButton = () => {
         setUserInput("");
         setReload(prev => prev + 1);
+        setFinalTime(null);
+        setIncorrectLetters([]);
     }
+    
+    const handleButtonClick = (num) => {
+        setNumberOfWords(num);
+        reloadButton();
+        setStartTime(null);
+        setFinalTime(null);
+    };
+    
+    const startTimer = () => {
+        if (!startTime) {
+            setStartTime(performance.now());
+        }
+    };
+
+    const stopTimer = () => {
+        if(startTime) {
+            const endTime = performance.now();
+            setFinalTime(((endTime - startTime) / 1000).toFixed(2));
+            setStartTime(null);
+        }
+    };
+
+
+    const totalCharacters = userInput.length;
+    const incorrectCount = incorrectLetters.length;
+    const correctCharacters = totalCharacters - incorrectCount;
+
+    const rawWPM = ((totalCharacters / 5) / (finalTime / 60)).toFixed(2);
+    const netWPM = ((correctCharacters / 5) / (finalTime / 60)).toFixed(2);
+    const accuracy = ((1 - incorrectCount / totalCharacters) * 100).toFixed(2);
 
     return (
         <div>
@@ -45,12 +58,14 @@ const NoOfWords = ({ activeComponent }) => {
             </div>
             <div>
                 <GetWords numberOfWords={numberOfWords} onWordsGenerated={setWords} reload={reload} />
-                <TypingTest words={words} userInput={userInput} setUserInput={setUserInput} onTypingStart={handleTypingStart} onTypingEnd={handleTypingEnd} />
+                <TypingTest words={words} userInput={userInput} setUserInput={setUserInput} onTypingStart={startTimer} onTypingEnd={stopTimer} incorrectLetters={incorrectLetters} setIncorrectLetters={setIncorrectLetters} />
             </div>
-            {activeComponent === "words" && startTime && endTime && (
+            {activeComponent === "words" && finalTime !== null && (
                 <div className="mt-4 p-2">
-                    <h2 className="text-lg font-bold">Typing Time</h2>
-                    <p>You took <b>{((endTime - startTime) / 1000).toFixed(2)} seconds</b> to type {words.split(" ").length} words.</p>
+                    <p><b>{rawWPM}</b> RAW</p>
+                    <p><b>{netWPM}</b> WPM</p>
+                    <p><b>{finalTime}</b> SEC</p>
+                    <p><b>{accuracy}</b>% ACC</p>
                 </div>
             )}
             <div>

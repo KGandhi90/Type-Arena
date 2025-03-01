@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 
-const TypingTest = ({ words, userInput, setUserInput, onTypingStart, onTypingEnd }) => {
-    const [incorrectLetters , setIncorrectLetters] = useState([]);
+const TypingTest = ({ words, userInput, setUserInput, onTypingStart, onTypingEnd, incorrectLetters, setIncorrectLetters }) => {
 
     useEffect(() => {
         const handleKeyPress = (event) => {
@@ -19,6 +18,7 @@ const TypingTest = ({ words, userInput, setUserInput, onTypingStart, onTypingEnd
                 });
             } else if (event.key === "Backspace") {
                 setUserInput((prev) => prev.slice(0, -1));
+                setIncorrectLetters((prevIncorrect) => prevIncorrect.slice(0, -1));
             }
             
             if (userInput.length + 1 === words.length) {
@@ -35,11 +35,6 @@ const TypingTest = ({ words, userInput, setUserInput, onTypingStart, onTypingEnd
         setUserInput("");
         setIncorrectLetters([]);
     }, [setUserInput, words]);
-
-    useEffect(() => {
-        console.log("Incorrect Letters : ", incorrectLetters.map((index) => words[index]));
-    }, [incorrectLetters]);
-
 
     return (
         <div>
