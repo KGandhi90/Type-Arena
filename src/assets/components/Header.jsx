@@ -17,7 +17,7 @@ const Header = ({ activeComponent, setActiveComponent }) => {
 
             <div>
                 {activeComponent === "words" && <NoOfWords activeComponent={activeComponent} />}
-                {activeComponent === "timer" && <Timer />}
+                {activeComponent === "timer" && <Timer activeComponent={activeComponent} />}
             </div>
         </div>
     )

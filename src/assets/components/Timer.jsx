@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import GetWords from "./GetWords";
 import TypingTest from "./TypingTest";
 
-const Timer = () => {
+const Timer = ({ activeComponent }) => {
     const [timer, setTimer] = useState(15);
     const numberOfWords = 500;
     const [userInput, setUserInput] = useState("");
@@ -10,6 +10,7 @@ const Timer = () => {
     const [reload, setReload] = useState(0);
     const [isTestComplete, setIsTestComplete] = useState(false);
     const intervalRef = useRef(null);
+    const [incorrectLetters, setIncorrectLetters] = useState([]);
 
     // useEffect(() => {
     //     console.log("UserInput state updated : ", userInput);
@@ -31,11 +32,24 @@ const Timer = () => {
         }
     };
 
-    useEffect(() => {
-        if(userInput.length > 0 && !intervalRef.current){
+    const onTypingStart = () => {
+        if(!intervalRef.current){
             startTimer();
         }
-    }, [userInput, startTimer]);
+    };
+
+    const onTypingEnd = () => {
+        if(intervalRef.current){
+            clearInterval(intervalRef.current);
+            intervalRef.current = null;
+        }
+    }
+
+    useEffect(() => {
+        if(userInput.length > 0 && !intervalRef.current){
+            onTypingStart();
+        }
+    }, [userInput, onTypingStart]);
 
     useEffect(() => {
         return () => {
@@ -48,9 +62,11 @@ const Timer = () => {
     // Resets everything when reloading
     const reloadButton = () => {
         setUserInput("");
+        // setTimer(15);
         setReload((prev) => prev + 1);
         setIsTestComplete(false);
         clearInterval(intervalRef.current); // Clear timer when reloading
+        setIncorrectLetters([]);
         intervalRef.current = null;
     };
 
@@ -77,12 +93,34 @@ const Timer = () => {
             <div className="mt-4">
                 <h2 className="text-xl">{timer}</h2>
             </div>
+            {/* <div className="">
+                <GetWords numberOfWords={numberOfWords} onWordsGenerated={setWords} reload={reload} />
+                <TypingTest words={words} userInput={userInput} setUserInput={setUserInput} incorrectLetters={incorrectLetters} setIncorrectLetters={setIncorrectLetters} onTypingStart={onTypingStart} onTypingEnd={onTypingEnd} />
+            </div>
+            {activeComponent === "words" && (
+                <div className="mt-4 p-2">
+                    <p><b>{rawWPM}</b> RAW</p>
+                    <p><b>{netWPM}</b> WPM</p>
+                    <p><b>{timer}</b> SEC</p>
+                    <p><b>{accuracy}</b>% ACC</p>
+                </div>
+            )} */}
+
             {!isTestComplete ? (
                 <div className="">
                     <GetWords numberOfWords={numberOfWords} onWordsGenerated={setWords} reload={reload} />
-                    <TypingTest words={words} userInput={userInput} setUserInput={setUserInput} />
+                    <TypingTest
+                        words={words}
+                        userInput={userInput}
+                        setUserInput={setUserInput}
+                        incorrectLetters={incorrectLetters}
+                        setIncorrectLetters={setIncorrectLetters}
+                        onTypingStart={onTypingStart}
+                        onTypingEnd={onTypingEnd}
+                    />
                 </div>
             ) : (
+                // Display results when the test is complete
                 <div className="mt-4 p-2">
                     <p><b>{rawWPM}</b> RAW WPM</p>
                     <p><b>{netWPM}</b> NET WPM</p>
@@ -90,9 +128,11 @@ const Timer = () => {
                     <p><b>{totalCharacters}</b> Characters Typed</p>
                 </div>
             )}
+
             <div>
                 <button onClick={reloadButton}>Reload</button>
             </div>
+            
         </div>
     );
 };
