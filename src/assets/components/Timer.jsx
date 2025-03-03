@@ -62,7 +62,7 @@ const Timer = ({ activeComponent }) => {
     // Resets everything when reloading
     const reloadButton = () => {
         setUserInput("");
-        // setTimer(15);
+        setTimer(15);
         setReload((prev) => prev + 1);
         setIsTestComplete(false);
         clearInterval(intervalRef.current); // Clear timer when reloading
@@ -122,9 +122,9 @@ const Timer = ({ activeComponent }) => {
             ) : (
                 // Display results when the test is complete
                 <div className="mt-4 p-2">
-                    <p><b>{rawWPM}</b> RAW WPM</p>
-                    <p><b>{netWPM}</b> NET WPM</p>
-                    <p><b>{accuracy}%</b> Accuracy</p>
+                    <p><b>{rawWPM}</b> RAW</p>
+                    <p><b>{netWPM}</b> WPM</p>
+                    <p><b>{accuracy}%</b> ACC</p>
                     <p><b>{totalCharacters}</b> Characters Typed</p>
                 </div>
             )}

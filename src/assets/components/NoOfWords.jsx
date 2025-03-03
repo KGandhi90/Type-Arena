@@ -15,6 +15,7 @@ const NoOfWords = ({ activeComponent }) => {
         setUserInput("");
         setReload(prev => prev + 1);
         setFinalTime(null);
+        setStartTime(null);
         setIncorrectLetters([]);
     }
     

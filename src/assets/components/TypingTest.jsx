@@ -24,7 +24,6 @@ const TypingTest = ({ words, userInput, setUserInput, onTypingStart, onTypingEnd
             if (userInput.length + 1 === words.length) {
                 onTypingEnd();
             }
-
         };
 
         window.addEventListener("keydown", handleKeyPress);
@@ -36,30 +35,47 @@ const TypingTest = ({ words, userInput, setUserInput, onTypingStart, onTypingEnd
         setIncorrectLetters([]);
     }, [setUserInput, words]);
 
+    // Split the text into words for display, but track global position
+    const renderWords = () => {
+        const wordsArray = words.split(" ");
+        let currentPosition = 0;
+        
+        return wordsArray.map((word, wordIndex) => {
+            // Create spans for each character in the word
+            const wordSpans = word.split("").map((char, charIndex) => {
+                const globalIndex = currentPosition + charIndex;
+                const isTyped = globalIndex < userInput.length;
+                const isCorrect = userInput[globalIndex] === char;
+                const isIncorrect = incorrectLetters.includes(globalIndex);
+                
+                return (
+                    <span
+                        key={charIndex}
+                        className={isTyped ? (isCorrect ? "text-white" : "text-red-500") : "text-black"}
+                        style={{ display: "inline-block" }}
+                    >
+                        {char}
+                    </span>
+                );
+            });
+            
+            // Update currentPosition to include this word and the space after it
+            currentPosition += word.length + 1; // +1 for the space
+            
+            // Return the word as a span that won't break
+            return (
+                <span key={wordIndex} className="inline-block mr-1 mb-1">
+                    {wordSpans}
+                </span>
+            );
+        });
+    };
+
     return (
         <div>
             <div className="w-full h-[9rem] overflow-hidden bg-red-400">
-                <div style={{ whiteSpace: "pre-wrap", wordBreak: "break-word" }}>
-                    {words.split(" ").map((word, wordIndex) => (
-                        <span key={wordIndex} style={{ display: "inline-block", marginRight: "4px" }}>
-                            {word.split("").map((char, charIndex) => {
-                                const index = words.slice(0, words.indexOf(word)).length + charIndex;
-                                const isTyped = index < userInput.length;
-                                const isCorrect = userInput[index] === char;
-                                const isIncorrect = incorrectLetters.includes(index);
-            
-                                return (
-                                    <span
-                                        key={charIndex}
-                                        className={isTyped ? (isCorrect ? "text-white" : "text-red-500") : "text-black"}
-                                        style={{ display: "inline-block", whiteSpace: "pre" }}
-                                    >
-                                        {char}
-                                    </span>
-                                );
-                            })}
-                        </span>
-                    ))}
+                <div className="p-2" style={{ wordBreak: "normal", wordWrap: "break-word" }}>
+                    {renderWords()}
                 </div>
             </div>
         </div>
