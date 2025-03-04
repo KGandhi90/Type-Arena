@@ -1,8 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import Header from "./Header";
 
-const Result = () => {
-    const [activeComponent, setActiveComponent] = useState("words");
+const Result = ({ onTestComplete, onTestReset, showResult }) => {
     const [startTime, setStartTime] = useState(null);
     const [endTime, setEndTime] = useState(null);
     const [typingTime, setTypingTime] = useState(null);
@@ -19,8 +17,9 @@ const Result = () => {
 
         if (userInput.length === words.length && words.length > 0) {
             setEndTime(Date.now());
+            onTestComplete();
         }
-    }, [userInput, words]);
+    }, [userInput, words, onTestComplete]);
 
     // Calculate and store typing time
     useEffect(() => {
@@ -29,12 +28,28 @@ const Result = () => {
         }
     }, [endTime]);
 
+    const handleReset = () => {
+        setStartTime(null);
+        setEndTime(null);
+        setTypingTime(null);
+        setUserInput("");
+        setWords("");
+        typingStarted.current = false;
+        onTestReset();
+    }
+
+    if(!showResult){
+        return null;
+    }
+
     return (
         <div>
-            {/* Header handles component switching */}
-            <Header activeComponent={activeComponent} setActiveComponent={setActiveComponent} />
+            <p>Typing Time : {typingTime}</p>
+            <button onClick={handleReset}>
+                Reload
+            </button>
         </div>
-    );
+    )
 };
 
 export default Result;

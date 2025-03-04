@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import GetWords from "./GetWords";
 import TypingTest from "./TypingTest";
 
-const Timer = ({ activeComponent }) => {
+const Timer = () => {
     const [timer, setTimer] = useState(15);
     const numberOfWords = 500;
     const [userInput, setUserInput] = useState("");
@@ -11,10 +11,6 @@ const Timer = ({ activeComponent }) => {
     const [isTestComplete, setIsTestComplete] = useState(false);
     const intervalRef = useRef(null);
     const [incorrectLetters, setIncorrectLetters] = useState([]);
-
-    // useEffect(() => {
-    //     console.log("UserInput state updated : ", userInput);
-    // }, [userInput])
 
     const startTimer = () => {
         if (!intervalRef.current && timer > 0) { // Start only if the timer is set
@@ -93,18 +89,6 @@ const Timer = ({ activeComponent }) => {
             <div className="mt-4">
                 <h2 className="text-xl">{timer}</h2>
             </div>
-            {/* <div className="">
-                <GetWords numberOfWords={numberOfWords} onWordsGenerated={setWords} reload={reload} />
-                <TypingTest words={words} userInput={userInput} setUserInput={setUserInput} incorrectLetters={incorrectLetters} setIncorrectLetters={setIncorrectLetters} onTypingStart={onTypingStart} onTypingEnd={onTypingEnd} />
-            </div>
-            {activeComponent === "words" && (
-                <div className="mt-4 p-2">
-                    <p><b>{rawWPM}</b> RAW</p>
-                    <p><b>{netWPM}</b> WPM</p>
-                    <p><b>{timer}</b> SEC</p>
-                    <p><b>{accuracy}</b>% ACC</p>
-                </div>
-            )} */}
 
             {!isTestComplete ? (
                 <div className="">

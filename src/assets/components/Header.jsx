@@ -2,7 +2,8 @@ import { useState } from "react";
 import NoOfWords from "./NoOfWords";
 import Timer from "./Timer";
 
-const Header = ({ activeComponent, setActiveComponent }) => {
+const Header = () => {
+    const [activeComponent, setActiveComponent] = useState("words");
 
     return(
         <div className="p-4">

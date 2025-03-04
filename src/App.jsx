@@ -1,16 +1,23 @@
+import { useState } from "react";
 import Result from "./assets/components/Result";
 import Header from "./assets/components/Header"
-import NoOfWords from "./assets/components/NoOfWords"
-import Timer from "./assets/components/Timer"
 
 function App() {
 
+  const [isTestComplete, setIsTestComplete] = useState(false);
+
+  const handleTestCompletion = () => {
+    setIsTestComplete(true);
+  };
+
+  const handleTestReset = () => {
+    setIsTestComplete(false);
+  }
+
   return (
     <>
-      {/* <NoOfWords /> */}
-      {/* <Timer /> */}
-      {/* <Header /> */}
-      <Result />
+      {!isTestComplete && <Header />}
+      <Result onTestComplete={handleTestCompletion} onTestReset={handleTestReset} showResult={isTestComplete} />
     </>
   )
 }
