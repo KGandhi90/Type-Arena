@@ -42,9 +42,20 @@ const Result = ({ onTestComplete, onTestReset, showResult }) => {
         return null;
     }
 
+    const totalCharacters = userInput.length;
+    const correctCharacters = userInput.split("").filter((char, i) => char === words[i]).length;
+    const incorrectCharacters = totalCharacters - correctCharacters;
+
+    const rawWPM = ((totalCharacters / 5) * (60 / (15 - timer))).toFixed(2);
+    const netWPM = ((correctCharacters / 5) * (60 / (15 - timer))).toFixed(2);
+    const accuracy = totalCharacters > 0 ? ((correctCharacters / totalCharacters) * 100).toFixed(2) : 100;
+
     return (
         <div>
-            <p>Typing Time : {typingTime}</p>
+            <p><b>{rawWPM}</b> RAW</p>
+            <p><b>{netWPM}</b> WPM</p>
+            <p><b>{accuracy}%</b> ACC</p>
+            <p><b>{totalCharacters}</b> Characters Typed</p>
             <button onClick={handleReset}>
                 Reload
             </button>

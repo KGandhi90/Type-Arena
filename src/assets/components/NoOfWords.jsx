@@ -41,14 +41,6 @@ const NoOfWords = ({ activeComponent }) => {
     };
 
 
-    const totalCharacters = userInput.length;
-    const incorrectCount = incorrectLetters.length;
-    const correctCharacters = totalCharacters - incorrectCount;
-
-    const rawWPM = ((totalCharacters / 5) / (finalTime / 60)).toFixed(2);
-    const netWPM = ((correctCharacters / 5) / (finalTime / 60)).toFixed(2);
-    const accuracy = ((1 - incorrectCount / totalCharacters) * 100).toFixed(2);
-
     return (
         <div>
             <div className="mb-4 mt-2">
@@ -61,14 +53,6 @@ const NoOfWords = ({ activeComponent }) => {
                 <GetWords numberOfWords={numberOfWords} onWordsGenerated={setWords} reload={reload} />
                 <TypingTest words={words} userInput={userInput} setUserInput={setUserInput} onTypingStart={startTimer} onTypingEnd={stopTimer} incorrectLetters={incorrectLetters} setIncorrectLetters={setIncorrectLetters} />
             </div>
-            {activeComponent === "words" && finalTime !== null && (
-                <div className="mt-4 p-2">
-                    <p><b>{rawWPM}</b> RAW</p>
-                    <p><b>{netWPM}</b> WPM</p>
-                    <p><b>{finalTime}</b> SEC</p>
-                    <p><b>{accuracy}</b>% ACC</p>
-                </div>
-            )}
             <div>
                 <button tabIndex="1" onClick={() => {reloadButton()}}>Reload</button>
             </div>

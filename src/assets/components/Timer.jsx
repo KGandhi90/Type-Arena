@@ -66,13 +66,6 @@ const Timer = () => {
         intervalRef.current = null;
     };
 
-    const totalCharacters = userInput.length;
-    const correctCharacters = userInput.split("").filter((char, i) => char === words[i]).length;
-    const incorrectCharacters = totalCharacters - correctCharacters;
-    
-    const rawWPM = ((totalCharacters / 5) * (60 / (15 - timer))).toFixed(2);
-    const netWPM = ((correctCharacters / 5) * (60 / (15 - timer))).toFixed(2);
-    const accuracy = totalCharacters > 0 ? ((correctCharacters / totalCharacters) * 100).toFixed(2) : 100;
 
     return (
         <div>
@@ -90,31 +83,21 @@ const Timer = () => {
                 <h2 className="text-xl">{timer}</h2>
             </div>
 
-            {!isTestComplete ? (
-                <div className="">
-                    <GetWords numberOfWords={numberOfWords} onWordsGenerated={setWords} reload={reload} />
-                    <TypingTest
-                        words={words}
-                        userInput={userInput}
-                        setUserInput={setUserInput}
-                        incorrectLetters={incorrectLetters}
-                        setIncorrectLetters={setIncorrectLetters}
-                        onTypingStart={onTypingStart}
-                        onTypingEnd={onTypingEnd}
-                    />
-                </div>
-            ) : (
-                // Display results when the test is complete
-                <div className="mt-4 p-2">
-                    <p><b>{rawWPM}</b> RAW</p>
-                    <p><b>{netWPM}</b> WPM</p>
-                    <p><b>{accuracy}%</b> ACC</p>
-                    <p><b>{totalCharacters}</b> Characters Typed</p>
-                </div>
-            )}
+            <div className="">
+                <GetWords numberOfWords={numberOfWords} onWordsGenerated={setWords} reload={reload} />
+                <TypingTest
+                    words={words}
+                    userInput={userInput}
+                    setUserInput={setUserInput}
+                    incorrectLetters={incorrectLetters}
+                    setIncorrectLetters={setIncorrectLetters}
+                    onTypingStart={onTypingStart}
+                    onTypingEnd={onTypingEnd}
+                />
+            </div>
 
             <div>
-                <button onClick={reloadButton}>Reload</button>
+                <input type="submit" value="Reload" onClick={reloadButton} />
             </div>
             
         </div>
