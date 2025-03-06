@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import GetWords from "./GetWords";
 import TypingTest from "./TypingTest";
+import Result from "./Result";
 
 const NoOfWords = ({ activeComponent }) => {
     const [numberOfWords, setNumberOfWords] = useState(10);
@@ -10,6 +11,7 @@ const NoOfWords = ({ activeComponent }) => {
     const [startTime, setStartTime] = useState(null);
     const [finalTime, setFinalTime] = useState(null);
     const [incorrectLetters, setIncorrectLetters] = useState([]);
+    const [isTestComplete, setIsTestComplete] = useState(false); // Track test completion
 
     const reloadButton = () => {
         setUserInput("");
@@ -17,13 +19,12 @@ const NoOfWords = ({ activeComponent }) => {
         setFinalTime(null);
         setStartTime(null);
         setIncorrectLetters([]);
-    }
+        setIsTestComplete(false); // Reset completion state
+    };
     
     const handleButtonClick = (num) => {
         setNumberOfWords(num);
         reloadButton();
-        setStartTime(null);
-        setFinalTime(null);
     };
     
     const startTimer = () => {
@@ -33,29 +34,54 @@ const NoOfWords = ({ activeComponent }) => {
     };
 
     const stopTimer = () => {
-        if(startTime) {
+        if (startTime) {
             const endTime = performance.now();
             setFinalTime(((endTime - startTime) / 1000).toFixed(2));
             setStartTime(null);
+            setIsTestComplete(true); // Mark test as complete
         }
     };
 
-
     return (
         <div>
-            <div className="mb-4 mt-2">
-                <button className="mr-4 outline p-1 rounded-md" onClick={() => handleButtonClick(10)}>10 Words</button>
-                <button className="mr-4 outline p-1 rounded-md" onClick={() => handleButtonClick(25)}>25 Words</button>
-                <button className="mr-4 outline p-1 rounded-md" onClick={() => handleButtonClick(50)}>50 Words</button>
-                <button className="outline p-1 rounded-md" onClick={() => handleButtonClick(100)}>100 Words</button>
-            </div>
-            <div>
-                <GetWords numberOfWords={numberOfWords} onWordsGenerated={setWords} reload={reload} />
-                <TypingTest words={words} userInput={userInput} setUserInput={setUserInput} onTypingStart={startTimer} onTypingEnd={stopTimer} incorrectLetters={incorrectLetters} setIncorrectLetters={setIncorrectLetters} />
-            </div>
-            <div>
-                <button tabIndex="1" onClick={() => {reloadButton()}}>Reload</button>
-            </div>
+            {/* Show the word selection and typing test only if test is not complete */}
+            {!isTestComplete && (
+                <>
+                    <div className="mb-4 mt-2">
+                        <button className="mr-4 outline p-1 rounded-md" onClick={() => handleButtonClick(10)}>10 Words</button>
+                        <button className="mr-4 outline p-1 rounded-md" onClick={() => handleButtonClick(25)}>25 Words</button>
+                        <button className="mr-4 outline p-1 rounded-md" onClick={() => handleButtonClick(50)}>50 Words</button>
+                        <button className="outline p-1 rounded-md" onClick={() => handleButtonClick(100)}>100 Words</button>
+                    </div>
+                    <div>
+                        <GetWords numberOfWords={numberOfWords} onWordsGenerated={setWords} reload={reload} />
+                        <TypingTest 
+                            words={words} 
+                            userInput={userInput} 
+                            setUserInput={setUserInput} 
+                            onTypingStart={startTimer} 
+                            onTypingEnd={stopTimer} 
+                            incorrectLetters={incorrectLetters} 
+                            setIncorrectLetters={setIncorrectLetters} 
+                        />
+                    </div>
+                    <div>
+                        <button tabIndex="1" onClick={reloadButton}>Reload</button>
+                    </div>
+                </>
+            )}
+
+            {/* Show results when test is complete */}
+            {isTestComplete && (
+                <Result 
+                    showResult={isTestComplete} 
+                    onTestComplete={() => {}} // No-op
+                    onTestReset={reloadButton}
+                    userInput={userInput}
+                    words={words}
+                    typingTime={finalTime} // Pass the calculated time
+                />
+            )}
         </div>
     );
 };

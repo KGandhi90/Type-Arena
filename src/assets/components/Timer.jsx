@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import GetWords from "./GetWords";
 import TypingTest from "./TypingTest";
+import Result from "./Result";
 
 const Timer = () => {
     const [timer, setTimer] = useState(15);
@@ -11,95 +12,120 @@ const Timer = () => {
     const [isTestComplete, setIsTestComplete] = useState(false);
     const intervalRef = useRef(null);
     const [incorrectLetters, setIncorrectLetters] = useState([]);
+    const [startTime, setStartTime] = useState(null); // Track start time for WPM calculation
 
     const startTimer = () => {
-        if (!intervalRef.current && timer > 0) { // Start only if the timer is set
+        if (!intervalRef.current && timer > 0) {
+            setStartTime(performance.now()); // Record start time
             intervalRef.current = setInterval(() => {
                 setTimer((prev) => {
-                    if(prev <= 1){
+                    if (prev <= 1) {
                         clearInterval(intervalRef.current);
                         intervalRef.current = null;
-                        setIsTestComplete(true);
+                        setIsTestComplete(true); // Mark test as complete when timer ends
                         return 0;
                     }
                     return prev - 1;
-                })
+                });
             }, 1000);
         }
     };
 
     const onTypingStart = () => {
-        if(!intervalRef.current){
+        if (!intervalRef.current) {
             startTimer();
         }
     };
 
     const onTypingEnd = () => {
-        if(intervalRef.current){
+        if (intervalRef.current) {
             clearInterval(intervalRef.current);
             intervalRef.current = null;
+            setIsTestComplete(true); // Mark as complete if user finishes early
         }
-    }
+    };
 
     useEffect(() => {
-        if(userInput.length > 0 && !intervalRef.current){
+        if (userInput.length > 0 && !intervalRef.current) {
             onTypingStart();
         }
-    }, [userInput, onTypingStart]);
+    }, [userInput]);
 
     useEffect(() => {
         return () => {
-            if (intervalRef.current){
+            if (intervalRef.current) {
                 clearInterval(intervalRef.current);
             }
-        }
+        };
     }, []);
 
-    // Resets everything when reloading
     const reloadButton = () => {
         setUserInput("");
-        setTimer(15);
+        setTimer(15); // Reset to initial timer value
         setReload((prev) => prev + 1);
         setIsTestComplete(false);
-        clearInterval(intervalRef.current); // Clear timer when reloading
+        clearInterval(intervalRef.current);
         setIncorrectLetters([]);
+        setStartTime(null);
         intervalRef.current = null;
     };
-
 
     return (
         <div>
             <div className="mb-4 mt-2">
                 {[15, 30, 60, 120].map((time) => (
-                    <button key={time} className="mr-4 outline p-1 rounded-md" onClick={() => {
-                        setTimer(time);
-                        reloadButton();
-                    }}>
+                    <button
+                        key={time}
+                        className="mr-4 outline p-1 rounded-md"
+                        onClick={() => {
+                            setTimer(time);
+                            reloadButton();
+                        }}
+                    >
                         {time} Seconds
                     </button>
                 ))}
             </div>
-            <div className="mt-4">
-                <h2 className="text-xl">{timer}</h2>
-            </div>
 
-            <div className="">
-                <GetWords numberOfWords={numberOfWords} onWordsGenerated={setWords} reload={reload} />
-                <TypingTest
-                    words={words}
+            {/* Show timer and typing test only if test is not complete */}
+            {!isTestComplete && (
+                <>
+                    <div className="mt-4">
+                        <h2 className="text-xl">{timer}</h2>
+                    </div>
+                    <div className="">
+                        <GetWords numberOfWords={numberOfWords} onWordsGenerated={setWords} reload={reload} />
+                        <TypingTest
+                            words={words}
+                            userInput={userInput}
+                            setUserInput={setUserInput}
+                            incorrectLetters={incorrectLetters}
+                            setIncorrectLetters={setIncorrectLetters}
+                            onTypingStart={onTypingStart}
+                            onTypingEnd={onTypingEnd}
+                        />
+                    </div>
+                    <div>
+                        <input type="submit" value="Reload" onClick={reloadButton} />
+                    </div>
+                </>
+            )}
+
+            {/* Show results when test is complete */}
+            {isTestComplete && (
+                <Result
+                    showResult={isTestComplete}
+                    onTestComplete={() => {}} // No-op
+                    onTestReset={reloadButton}
                     userInput={userInput}
-                    setUserInput={setUserInput}
-                    incorrectLetters={incorrectLetters}
-                    setIncorrectLetters={setIncorrectLetters}
-                    onTypingStart={onTypingStart}
-                    onTypingEnd={onTypingEnd}
+                    words={words}
+                    typingTime={
+                        startTime
+                            ? ((performance.now() - startTime) / 1000).toFixed(2) // Time from start to end
+                            : timer // Fallback to initial timer value if not started
+                    }
                 />
-            </div>
-
-            <div>
-                <input type="submit" value="Reload" onClick={reloadButton} />
-            </div>
-            
+            )}
         </div>
     );
 };
