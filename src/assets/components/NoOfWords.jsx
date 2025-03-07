@@ -3,7 +3,7 @@ import GetWords from "./GetWords";
 import TypingTest from "./TypingTest";
 import Result from "./Result";
 
-const NoOfWords = ({ activeComponent }) => {
+const NoOfWords = () => {
     const [numberOfWords, setNumberOfWords] = useState(10);
     const [words, setWords] = useState("");
     const [userInput, setUserInput] = useState("");
