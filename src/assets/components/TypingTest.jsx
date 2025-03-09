@@ -1,34 +1,78 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
-const TypingTest = ({ words, userInput, setUserInput, onTypingStart, onTypingEnd, incorrectLetters, setIncorrectLetters }) => {
+const TypingTest = ({ words, userInput, setUserInput, onTypingStart, onTypingEnd, incorrectLetters, setIncorrectLetters, onReload }) => {
+    const typingAreaRef = useRef(null);
+    const [tabPressed, setTabPressed] = useState(false);
 
     useEffect(() => {
-        const handleKeyPress = (event) => {
-            if (event.key.length === 1) {
-                if (userInput.length === 0) {
-                    onTypingStart();
-                }
-                setUserInput((prev) => {
-                    const newInput = prev + event.key;
-                    const index = prev.length;
-                    if(newInput.length <= words.length && words[newInput.length - 1] !== event.key){
-                        setIncorrectLetters((prevIncorrect) => [...prevIncorrect, index]);
-                    }
-                    return newInput;
-                });
-            } else if (event.key === "Backspace") {
-                setUserInput((prev) => prev.slice(0, -1));
-                setIncorrectLetters((prevIncorrect) => prevIncorrect.slice(0, -1));
-            }
-            
-            if (userInput.length + 1 === words.length) {
-                onTypingEnd();
-            }
-        };
+        // Focus the typing area when the component mounts
+        if (typingAreaRef.current) {
+            typingAreaRef.current.focus();
+        }
+    }, [words]); // Re-focus when words change (like after reload)
 
-        window.addEventListener("keydown", handleKeyPress);
-        return () => window.removeEventListener("keydown", handleKeyPress);
-    }, [userInput, words, setUserInput, onTypingStart, onTypingEnd]);
+    const handleKeyDown = (event) => {
+        // Track Tab key state
+        if (event.key === "Tab") {
+            event.preventDefault();
+            setTabPressed(true);
+            return;
+        }
+    
+        // Check for Enter when Tab was previously pressed
+        if (event.key === "Enter" && tabPressed) {
+            event.preventDefault();
+            setTabPressed(false);
+            onReload(); // Call reload function
+            return;
+        }
+    
+        // Reset Tab state for any other key
+        if (event.key !== "Tab") {
+            setTabPressed(false);
+        }
+    
+        if (event.key.length === 1) {
+            if (userInput.length === 0) {
+                onTypingStart();
+            }
+            setUserInput((prev) => {
+                const newInput = prev + event.key;
+                const index = prev.length;
+                if (newInput.length <= words.length && words[newInput.length - 1] !== event.key) {
+                    setIncorrectLetters((prevIncorrect) => [...prevIncorrect, index]);
+                }
+                return newInput;
+            });
+        } else if (event.key === "Backspace") {
+            setUserInput((prev) => {
+                const newInput = prev.slice(0, -1);
+                // Recalculate incorrect letters based on the new input
+                const newIncorrectLetters = [];
+                for (let i = 0; i < newInput.length; i++) {
+                    if (newInput[i] !== words[i]) {
+                        newIncorrectLetters.push(i);
+                    }
+                }
+                setIncorrectLetters(newIncorrectLetters);
+                return newInput;
+            });
+        }
+    
+        if (userInput.length + 1 === words.length) {
+            onTypingEnd();
+        }
+    };
+
+    // When tab key is released without pressing enter, reset the state
+    const handleKeyUp = (event) => {
+        if (event.key === "Tab") {
+            // Adding a delay to allow Tab+Enter combination to be detected
+            setTimeout(() => {
+                setTabPressed(false);
+            }, 300);
+        }
+    };
 
     useEffect(() => {
         setUserInput("");
@@ -37,6 +81,7 @@ const TypingTest = ({ words, userInput, setUserInput, onTypingStart, onTypingEnd
 
     // Split the text into words for display, but track global position
     const renderWords = () => {
+        // Your existing renderWords code
         const wordsArray = words.split(" ");
         let currentPosition = 0;
         
@@ -73,7 +118,14 @@ const TypingTest = ({ words, userInput, setUserInput, onTypingStart, onTypingEnd
 
     return (
         <div>
-            <div className="w-full h-[9rem] overflow-hidden bg-red-400">
+            <div 
+                id="typing-area"
+                ref={typingAreaRef}
+                className="w-full h-[9rem] overflow-hidden bg-red-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                tabIndex={0}
+                onKeyDown={handleKeyDown}
+                onKeyUp={handleKeyUp}
+            >
                 <div className="p-2" style={{ wordBreak: "normal", wordWrap: "break-word" }}>
                     {renderWords()}
                 </div>

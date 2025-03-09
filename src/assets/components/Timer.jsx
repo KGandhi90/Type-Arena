@@ -4,7 +4,8 @@ import TypingTest from "./TypingTest";
 import Result from "./Result";
 
 const Timer = () => {
-    const [timer, setTimer] = useState(15);
+    const [timer, setTimer] = useState(0);
+    const [selectedTime, setSelectedTime] = useState(0); // Track the selected time
     const numberOfWords = 500;
     const [userInput, setUserInput] = useState("");
     const [words, setWords] = useState("");
@@ -59,15 +60,27 @@ const Timer = () => {
         };
     }, []);
 
-    const reloadButton = () => {
+    const reloadButton = (count) => {
         setUserInput("");
-        setTimer(15); // Reset to initial timer value
+        setTimer(count || selectedTime); // Reset timer to the selected time
         setReload((prev) => prev + 1);
         setIsTestComplete(false);
         clearInterval(intervalRef.current);
         setIncorrectLetters([]);
         setStartTime(null);
         intervalRef.current = null;
+        setTimeout(() => {
+            const typingArea = document.getElementById('typing-area');
+            if(typingArea){
+                typingArea.focus();
+            }
+        }, 10);
+    };
+
+    const handleTimeSelection = (time) => {
+        setSelectedTime(time);
+        setTimer(time);
+        reloadButton(time);
     };
 
     return (
@@ -76,11 +89,8 @@ const Timer = () => {
                 {[15, 30, 60, 120].map((time) => (
                     <button
                         key={time}
-                        className="mr-4 outline p-1 rounded-md"
-                        onClick={() => {
-                            setTimer(time);
-                            reloadButton();
-                        }}
+                        className={"mr-4 outline p-1 rounded-md"}
+                        onClick={() => handleTimeSelection(time)}
                     >
                         {time} Seconds
                     </button>
@@ -103,10 +113,15 @@ const Timer = () => {
                             setIncorrectLetters={setIncorrectLetters}
                             onTypingStart={onTypingStart}
                             onTypingEnd={onTypingEnd}
+                            onReload={() => reloadButton(selectedTime)} // Pass selectedTime to reloadButton
                         />
                     </div>
                     <div>
-                        <input type="submit" value="Reload" onClick={reloadButton} />
+                        <input 
+                            type="submit" 
+                            value="Reload" 
+                            onClick={() => reloadButton(selectedTime)} // Pass selectedTime to reloadButton
+                        />
                     </div>
                 </>
             )}
@@ -116,7 +131,7 @@ const Timer = () => {
                 <Result
                     showResult={isTestComplete}
                     onTestComplete={() => {}} // No-op
-                    onTestReset={reloadButton}
+                    onTestReset={() => reloadButton(selectedTime)} // Pass selectedTime to reloadButton
                     userInput={userInput}
                     words={words}
                     typingTime={

@@ -20,6 +20,9 @@ const NoOfWords = () => {
         setStartTime(null);
         setIncorrectLetters([]);
         setIsTestComplete(false); // Reset completion state
+        setTimeout(() => {
+            document.getElementById('typing-area').focus();
+        }, 10);
     };
     
     const handleButtonClick = (num) => {
@@ -63,10 +66,11 @@ const NoOfWords = () => {
                             onTypingEnd={stopTimer} 
                             incorrectLetters={incorrectLetters} 
                             setIncorrectLetters={setIncorrectLetters} 
+                            onReload={reloadButton}
                         />
                     </div>
                     <div>
-                        <button tabIndex="1" onClick={reloadButton}>Reload</button>
+                        <button onClick={reloadButton}>Reload</button>
                     </div>
                 </>
             )}
