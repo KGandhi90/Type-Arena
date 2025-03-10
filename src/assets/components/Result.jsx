@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react";
-
-const Result = ({ onTestComplete, onTestReset, showResult, userInput, words, typingTime }) => {
+const Result = ({ onTestReset, showResult, userInput, words, typingTime }) => {
     if (!showResult) {
         return null;
     }

@@ -4,7 +4,7 @@ import TypingTest from "./TypingTest";
 import Result from "./Result";
 
 const Timer = () => {
-    const [timer, setTimer] = useState(0);
+    const [timer, setTimer] = useState(15);
     const [selectedTime, setSelectedTime] = useState(0); // Track the selected time
     const numberOfWords = 500;
     const [userInput, setUserInput] = useState("");
@@ -62,7 +62,7 @@ const Timer = () => {
 
     const reloadButton = (count) => {
         setUserInput("");
-        setTimer(count || selectedTime); // Reset timer to the selected time
+        setTimer(count || selectedTime || 15); // Reset timer to the selected time
         setReload((prev) => prev + 1);
         setIsTestComplete(false);
         clearInterval(intervalRef.current);
