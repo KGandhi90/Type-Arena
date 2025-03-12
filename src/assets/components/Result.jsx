@@ -1,11 +1,11 @@
-const Result = ({ onTestReset, showResult, userInput, words, typingTime }) => {
+const Result = ({ onTestReset, showResult, userInput, words, typingTime, totalMistakes }) => {
     if (!showResult) {
         return null;
     }
 
     const totalCharacters = userInput.length;
     const correctCharacters = userInput.split("").filter((char, i) => char === words[i]).length;
-    const incorrectCharacters = totalCharacters - correctCharacters;
+    const incorrectCharacters = totalMistakes;
 
     // Calculate WPM (words per minute): (characters / 5) * (60 / seconds)
     const rawWPM = ((totalCharacters / 5) * (60 / typingTime)).toFixed(2);

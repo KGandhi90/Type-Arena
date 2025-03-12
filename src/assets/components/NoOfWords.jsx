@@ -12,6 +12,7 @@ const NoOfWords = () => {
     const [finalTime, setFinalTime] = useState(null);
     const [incorrectLetters, setIncorrectLetters] = useState([]);
     const [isTestComplete, setIsTestComplete] = useState(false); // Track test completion
+    const [totalMistakes, setTotalMistakes] = useState(0);
 
     const reloadButton = () => {
         setUserInput("");
@@ -67,6 +68,7 @@ const NoOfWords = () => {
                             incorrectLetters={incorrectLetters} 
                             setIncorrectLetters={setIncorrectLetters} 
                             onReload={reloadButton}
+                            setTotalMistakes={setTotalMistakes}
                         />
                     </div>
                     <div>
@@ -84,6 +86,7 @@ const NoOfWords = () => {
                     userInput={userInput}
                     words={words}
                     typingTime={finalTime} // Pass the calculated time
+                    totalMistakes={totalMistakes}
                 />
             )}
         </div>

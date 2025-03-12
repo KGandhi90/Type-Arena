@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-const TypingTest = ({ words, userInput, setUserInput, onTypingStart, onTypingEnd, setIncorrectLetters }) => {
+const TypingTest = ({ words, userInput, setUserInput, onTypingStart, onTypingEnd, incorrectLetters, setIncorrectLetters, setTotalMistakes }) => {
     const inputRef = useRef(null);
     const [cursorBlink, setCursorBlink] = useState(true);
     const [isFocused, setIsFocused] = useState(false);
@@ -19,7 +19,7 @@ const TypingTest = ({ words, userInput, setUserInput, onTypingStart, onTypingEnd
         // Set timer to mark as inactive after 5 seconds
         inactivityTimerRef.current = setTimeout(() => {
             setIsActive(false);
-            inputRef.current = false;
+            // inputRef.current = false;
         }, 10000);
     };
 
@@ -62,6 +62,11 @@ const TypingTest = ({ words, userInput, setUserInput, onTypingStart, onTypingEnd
                 newIncorrectLetters.push(i);
             }
         }
+
+        setTotalMistakes((prev) => {
+            const newMistakes = newIncorrectLetters.length - incorrectLetters.length;
+            return prev + (newMistakes > 0 ? newMistakes : 0);  // ✅ Do not reduce mistakes on backspace
+        });
         setIncorrectLetters(newIncorrectLetters);
 
         if (value.length === words.length) {
@@ -132,8 +137,10 @@ const TypingTest = ({ words, userInput, setUserInput, onTypingStart, onTypingEnd
             <div
                 className="w-full h-[9rem] overflow-hidden bg-red-400 focus:outline-none focus:ring-2 focus:ring-blue-500 relative"
                 onClick={() => {
-                    inputRef.current && inputRef.current.focus();
-                    resetInactivityTimer();
+                    if(inputRef.current){
+                        inputRef.current.focus();
+                        resetInactivityTimer();
+                    }
                 }}
             >
                 <div className="p-2" style={{ wordBreak: "normal", wordWrap: "break-word", ...blurEffect() }}>
