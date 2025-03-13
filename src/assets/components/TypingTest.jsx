@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-const TypingTest = ({ words, userInput, setUserInput, onTypingStart, onTypingEnd, incorrectLetters, setIncorrectLetters, setTotalMistakes }) => {
+const TypingTest = ({ words, userInput, setUserInput, onTypingStart, onTypingEnd, incorrectLetters, setIncorrectLetters }) => {
     const inputRef = useRef(null);
     const [cursorBlink, setCursorBlink] = useState(true);
     const [isFocused, setIsFocused] = useState(false);
@@ -14,12 +14,10 @@ const TypingTest = ({ words, userInput, setUserInput, onTypingStart, onTypingEnd
         }
         
         setIsActive(true);
-        // inputRef.current = false;
         
         // Set timer to mark as inactive after 5 seconds
         inactivityTimerRef.current = setTimeout(() => {
             setIsActive(false);
-            // inputRef.current = false;
         }, 10000);
     };
 
@@ -55,19 +53,18 @@ const TypingTest = ({ words, userInput, setUserInput, onTypingStart, onTypingEnd
 
         setUserInput(value);
 
-        // Track incorrect letters
-        const newIncorrectLetters = [];
-        for (let i = 0; i < value.length; i++) {
-            if (value[i] !== words[i]) {
-                newIncorrectLetters.push(i);
+        // Only append new incorrect letters, don’t overwrite or remove existing ones
+        if (value.length > userInput.length) { // Only check when adding characters, not backspacing
+            const lastTypedIndex = value.length - 1;
+            const lastTypedChar = value[lastTypedIndex];
+            if (lastTypedChar !== words[lastTypedIndex]) {
+                setIncorrectLetters((prev) => {
+                    const newIncorrectLetters = [...prev, lastTypedChar];
+                    console.log(newIncorrectLetters);
+                    return newIncorrectLetters;
+                });
             }
         }
-
-        setTotalMistakes((prev) => {
-            const newMistakes = newIncorrectLetters.length - incorrectLetters.length;
-            return prev + (newMistakes > 0 ? newMistakes : 0);  // ✅ Do not reduce mistakes on backspace
-        });
-        setIncorrectLetters(newIncorrectLetters);
 
         if (value.length === words.length) {
             onTypingEnd();
@@ -97,13 +94,10 @@ const TypingTest = ({ words, userInput, setUserInput, onTypingStart, onTypingEnd
     // Render text with cursor
     const renderTextWithCursor = () => {
         return words.split("").map((char, index) => {
-            // Determine if cursor should appear at this position
-            // Show cursor only when: focused AND active AND at current typing position
             const isCursorHere = index === userInput.length && isFocused && isActive;
             
             return (
                 <span key={index}>
-                    {/* Show cursor before character if conditions are met */}
                     {isCursorHere && (
                         <span 
                             className={`inline-block w-0.5 h-5 bg-white align-middle ${cursorBlink ? 'opacity-100' : 'opacity-0'} absolute mt-0.5 mr-0.5`}

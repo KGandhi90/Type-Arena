@@ -68,7 +68,6 @@ const NoOfWords = () => {
                             incorrectLetters={incorrectLetters} 
                             setIncorrectLetters={setIncorrectLetters} 
                             onReload={reloadButton}
-                            setTotalMistakes={setTotalMistakes}
                         />
                     </div>
                     <div>
@@ -86,7 +85,7 @@ const NoOfWords = () => {
                     userInput={userInput}
                     words={words}
                     typingTime={finalTime} // Pass the calculated time
-                    totalMistakes={totalMistakes}
+                    incorrectLetters={incorrectLetters}
                 />
             )}
         </div>

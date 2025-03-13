@@ -139,6 +139,7 @@ const Timer = () => {
                             ? ((performance.now() - startTime) / 1000).toFixed(2) // Time from start to end
                             : timer // Fallback to initial timer value if not started
                     }
+                    incorrectLetters={incorrectLetters}
                 />
             )}
         </div>

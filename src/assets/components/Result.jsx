@@ -1,16 +1,16 @@
-const Result = ({ onTestReset, showResult, userInput, words, typingTime, totalMistakes }) => {
+const Result = ({ onTestReset, showResult, userInput, words, typingTime, incorrectLetters }) => {
     if (!showResult) {
         return null;
     }
 
     const totalCharacters = userInput.length;
     const correctCharacters = userInput.split("").filter((char, i) => char === words[i]).length;
-    const incorrectCharacters = totalMistakes;
 
     // Calculate WPM (words per minute): (characters / 5) * (60 / seconds)
     const rawWPM = ((totalCharacters / 5) * (60 / typingTime)).toFixed(2);
     const netWPM = ((correctCharacters / 5) * (60 / typingTime)).toFixed(2);
-    const accuracy = totalCharacters > 0 ? ((correctCharacters / totalCharacters) * 100).toFixed(2) : 100;
+    const totalAttempts = totalCharacters + (incorrectLetters.length); // Total characters attempted, including mistakes
+    const accuracy = totalAttempts > 0 ? ((correctCharacters / totalAttempts) * 100).toFixed(2) : 100;
 
     return (
         <div>
