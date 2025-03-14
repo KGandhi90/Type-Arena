@@ -1,3 +1,5 @@
+import ReloadButton from "./ReloadButton";
+
 const Result = ({ onTestReset, showResult, userInput, words, typingTime, incorrectLetters }) => {
     if (!showResult) {
         return null;
@@ -18,9 +20,7 @@ const Result = ({ onTestReset, showResult, userInput, words, typingTime, incorre
             <p><b>{netWPM}</b> NET WPM</p>
             <p><b>{accuracy}%</b> ACC</p>
             <p><b>{totalCharacters}</b> Characters Typed</p>
-            <button onClick={onTestReset} className="cursor-pointer mt-4">
-                Reload
-            </button>
+            <ReloadButton reload={onTestReset} />
         </div>
     );
 };

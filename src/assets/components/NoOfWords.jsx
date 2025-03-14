@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import GetWords from "./GetWords";
 import TypingTest from "./TypingTest";
 import Result from "./Result";
+import ReloadButton from "./ReloadButton";
 
 const NoOfWords = () => {
     const [numberOfWords, setNumberOfWords] = useState(10);
@@ -71,7 +72,7 @@ const NoOfWords = () => {
                         />
                     </div>
                     <div className="flex justify-center items-center pt-4">
-                        <button onClick={reloadButton} className="cursor-pointer">Reload</button>
+                        <ReloadButton reload={reloadButton} />
                     </div>
                 </>
             )}

@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import GetWords from "./GetWords";
 import TypingTest from "./TypingTest";
 import Result from "./Result";
+import ReloadButton from "./ReloadButton";
 
 const Timer = () => {
     const [timer, setTimer] = useState(15);
@@ -117,7 +118,7 @@ const Timer = () => {
                         />
                     </div>
                     <div className="flex justify-center items-center pt-4">
-                        <button onClick={() => reloadButton(selectedTime)}>Reload</button>
+                        <ReloadButton reload={() => reloadButton(selectedTime)} />
                     </div>
                 </>
             )}
