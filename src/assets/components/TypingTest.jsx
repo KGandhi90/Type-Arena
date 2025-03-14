@@ -60,7 +60,6 @@ const TypingTest = ({ words, userInput, setUserInput, onTypingStart, onTypingEnd
             if (lastTypedChar !== words[lastTypedIndex]) {
                 setIncorrectLetters((prev) => {
                     const newIncorrectLetters = [...prev, lastTypedChar];
-                    console.log(newIncorrectLetters);
                     return newIncorrectLetters;
                 });
             }
@@ -106,11 +105,11 @@ const TypingTest = ({ words, userInput, setUserInput, onTypingStart, onTypingEnd
                     
                     <span
                         className={
-                            index < userInput.length
+                            `${index < userInput.length
                                 ? userInput[index] === char
                                     ? "text-white"
                                     : "text-red-500"
-                                : "text-black"
+                                : "text-black"}  select-none`
                         }
                     >
                         {char}
@@ -129,7 +128,7 @@ const TypingTest = ({ words, userInput, setUserInput, onTypingStart, onTypingEnd
     return (
         <div onClick={handleMouseClick}>
             <div
-                className="w-full h-[9rem] overflow-hidden bg-red-400 focus:outline-none focus:ring-2 focus:ring-blue-500 relative"
+                className="w-[70vw] h-[9rem] overflow-hidden bg-red-400 relative rounded-lg"
                 onClick={() => {
                     if(inputRef.current){
                         inputRef.current.focus();

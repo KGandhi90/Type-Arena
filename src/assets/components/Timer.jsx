@@ -85,11 +85,11 @@ const Timer = () => {
 
     return (
         <div>
-            <div className="mb-4 mt-2">
+            <div className="mb-4 mt-2 flex justify-center items-center">
                 {[15, 30, 60, 120].map((time) => (
                     <button
                         key={time}
-                        className={"mr-4 outline p-1 rounded-md"}
+                        className={"mr-4 outline p-1 rounded-md w-[7rem]"}
                         onClick={() => handleTimeSelection(time)}
                     >
                         {time} Seconds
@@ -116,12 +116,8 @@ const Timer = () => {
                             onReload={() => reloadButton(selectedTime)} // Pass selectedTime to reloadButton
                         />
                     </div>
-                    <div>
-                        <input 
-                            type="submit" 
-                            value="Reload" 
-                            onClick={() => reloadButton(selectedTime)} // Pass selectedTime to reloadButton
-                        />
+                    <div className="flex justify-center items-center pt-4">
+                        <button onClick={() => reloadButton(selectedTime)}>Reload</button>
                     </div>
                 </>
             )}

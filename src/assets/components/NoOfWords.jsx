@@ -51,11 +51,11 @@ const NoOfWords = () => {
             {/* Show the word selection and typing test only if test is not complete */}
             {!isTestComplete && (
                 <>
-                    <div className="mb-4 mt-2">
-                        <button className="mr-4 outline p-1 rounded-md" onClick={() => handleButtonClick(10)}>10 Words</button>
-                        <button className="mr-4 outline p-1 rounded-md" onClick={() => handleButtonClick(25)}>25 Words</button>
-                        <button className="mr-4 outline p-1 rounded-md" onClick={() => handleButtonClick(50)}>50 Words</button>
-                        <button className="outline p-1 rounded-md" onClick={() => handleButtonClick(100)}>100 Words</button>
+                    <div className="mb-4 mt-2 flex justify-center items-center">
+                        <button className="mr-4 outline p-1 rounded-md w-[7rem]" onClick={() => handleButtonClick(10)}>10 Words</button>
+                        <button className="mr-4 outline p-1 rounded-md w-[7rem]" onClick={() => handleButtonClick(25)}>25 Words</button>
+                        <button className="mr-4 outline p-1 rounded-md w-[7rem]" onClick={() => handleButtonClick(50)}>50 Words</button>
+                        <button className="outline p-1 rounded-md w-[7rem]" onClick={() => handleButtonClick(100)}>100 Words</button>
                     </div>
                     <div>
                         <GetWords numberOfWords={numberOfWords} onWordsGenerated={setWords} reload={reload} />
@@ -70,8 +70,8 @@ const NoOfWords = () => {
                             onReload={reloadButton}
                         />
                     </div>
-                    <div>
-                        <button onClick={reloadButton}>Reload</button>
+                    <div className="flex justify-center items-center pt-4">
+                        <button onClick={reloadButton} className="cursor-pointer">Reload</button>
                     </div>
                 </>
             )}

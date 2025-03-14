@@ -7,16 +7,19 @@ const Header = () => {
 
     return(
         <div className="p-4">
-            <div className="">
+            <div className="text-center">
                 <button onClick={() => setActiveComponent("words")} className="outline rounded-sm mr-4 p-2">
                     Words
                 </button>
                 <button onClick={() => setActiveComponent("timer")} className="outline rounded-sm p-2">
                     Time
                 </button>
+                <button className="float-right">
+                    GitHub
+                </button>
             </div>
 
-            <div>
+            <div className="flex justify-center items-center">
                 {activeComponent === "words" && <NoOfWords activeComponent={activeComponent} />}
                 {activeComponent === "timer" && <Timer activeComponent={activeComponent} />}
             </div>
