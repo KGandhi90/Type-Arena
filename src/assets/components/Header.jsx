@@ -8,10 +8,10 @@ const Header = () => {
     return(
         <div className="p-4">
             <div className="text-center">
-                <button onClick={() => setActiveComponent("words")} className="outline rounded-sm mr-4 p-2">
+                <button onClick={() => setActiveComponent("words")} className="bg-[#0b1822] text-[#326984] rounded-md mr-4 p-2 w-[5rem]">
                     Words
                 </button>
-                <button onClick={() => setActiveComponent("timer")} className="outline rounded-sm p-2">
+                <button onClick={() => setActiveComponent("timer")} className="bg-[#0b1822] text-[#326984] rounded-md p-2 w-[5rem]">
                     Time
                 </button>
                 <div className="h-[30px] w-[30px] float-right flex justify-center items-center">

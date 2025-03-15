@@ -15,11 +15,13 @@ const Result = ({ onTestReset, showResult, userInput, words, typingTime, incorre
     const accuracy = totalAttempts > 0 ? ((correctCharacters / totalAttempts) * 100).toFixed(2) : 100;
 
     return (
-        <div>
-            <p><b>{rawWPM}</b> RAW WPM</p>
-            <p><b>{netWPM}</b> NET WPM</p>
-            <p><b>{accuracy}%</b> ACC</p>
-            <p><b>{totalCharacters}</b> Characters Typed</p>
+        <div className="text-[#56c3b7] text-center">
+            <div className="flex-cols justify-center items-center text-[1.5rem] mt-[1.5rem]">
+                <p><b>{rawWPM}</b> RAW WPM</p>
+                <p><b>{netWPM}</b> NET WPM</p>
+                <p><b>{accuracy}%</b> ACC</p>
+                <p><b>{totalCharacters}</b> Characters Typed</p>
+            </div>
             <ReloadButton reload={onTestReset} />
         </div>
     );

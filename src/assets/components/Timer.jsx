@@ -90,7 +90,7 @@ const Timer = () => {
                 {[15, 30, 60, 120].map((time) => (
                     <button
                         key={time}
-                        className={"mr-4 outline p-1 rounded-md w-[7rem]"}
+                        className={"mr-4 bg-[#0b1822] text-[#326984] p-1 rounded-md w-[7rem]"}
                         onClick={() => handleTimeSelection(time)}
                     >
                         {time} Seconds
@@ -102,7 +102,7 @@ const Timer = () => {
             {!isTestComplete && (
                 <>
                     <div className="mt-4">
-                        <h2 className="text-xl">{timer}</h2>
+                        <h2 className="text-xl text-[#56c3b7]">{timer}</h2>
                     </div>
                     <div className="">
                         <GetWords numberOfWords={numberOfWords} onWordsGenerated={setWords} reload={reload} />

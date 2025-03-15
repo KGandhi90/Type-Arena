@@ -53,10 +53,10 @@ const NoOfWords = () => {
             {!isTestComplete && (
                 <>
                     <div className="mb-4 mt-2 flex justify-center items-center">
-                        <button className="mr-4 outline p-1 rounded-md w-[7rem]" onClick={() => handleButtonClick(10)}>10 Words</button>
-                        <button className="mr-4 outline p-1 rounded-md w-[7rem]" onClick={() => handleButtonClick(25)}>25 Words</button>
-                        <button className="mr-4 outline p-1 rounded-md w-[7rem]" onClick={() => handleButtonClick(50)}>50 Words</button>
-                        <button className="outline p-1 rounded-md w-[7rem]" onClick={() => handleButtonClick(100)}>100 Words</button>
+                        <button className="mr-4 bg-[#0b1822] text-[#326984] p-1 rounded-md w-[7rem]" onClick={() => handleButtonClick(10)}>10 Words</button>
+                        <button className="mr-4 bg-[#0b1822] text-[#326984] p-1 rounded-md w-[7rem]" onClick={() => handleButtonClick(25)}>25 Words</button>
+                        <button className="mr-4 bg-[#0b1822] text-[#326984] p-1 rounded-md w-[7rem]" onClick={() => handleButtonClick(50)}>50 Words</button>
+                        <button className="bg-[#0b1822] text-[#326984] p-1 rounded-md w-[7rem]" onClick={() => handleButtonClick(100)}>100 Words</button>
                     </div>
                     <div>
                         <GetWords numberOfWords={numberOfWords} onWordsGenerated={setWords} reload={reload} />

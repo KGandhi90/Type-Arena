@@ -99,7 +99,7 @@ const TypingTest = ({ words, userInput, setUserInput, onTypingStart, onTypingEnd
                 <span key={index}>
                     {isCursorHere && (
                         <span 
-                            className={`inline-block w-0.5 h-5 bg-white align-middle ${cursorBlink ? 'opacity-100' : 'opacity-0'} absolute mt-0.5 mr-0.5`}
+                            className={`inline-block w-0.5 h-5 bg-[#56c3b7] align-middle ${cursorBlink ? 'opacity-100' : 'opacity-0'} absolute mt-0.5 mr-0.5`}
                         ></span>
                     )}
                     
@@ -107,9 +107,9 @@ const TypingTest = ({ words, userInput, setUserInput, onTypingStart, onTypingEnd
                         className={
                             `${index < userInput.length
                                 ? userInput[index] === char
-                                    ? "text-white"
-                                    : "text-red-500"
-                                : "text-black"}  select-none`
+                                    ? "text-[#e4edf1]"
+                                    : "text-[#d44729]"
+                                : "text-[#326984]"}  select-none`
                         }
                     >
                         {char}
@@ -126,9 +126,9 @@ const TypingTest = ({ words, userInput, setUserInput, onTypingStart, onTypingEnd
     }
 
     return (
-        <div onClick={handleMouseClick}>
+        <div onClick={handleMouseClick} className="flex justify-center items-center">
             <div
-                className="w-[70vw] h-[9rem] overflow-hidden bg-red-400 relative rounded-lg"
+                className="w-[70vw] h-[9rem] overflow-hidden bg-[#0b1822] relative rounded-lg"
                 onClick={() => {
                     if(inputRef.current){
                         inputRef.current.focus();
@@ -141,7 +141,7 @@ const TypingTest = ({ words, userInput, setUserInput, onTypingStart, onTypingEnd
                 </div>
 
                 {!isActive && (
-                    <div className="absolute inset-0 flex items-center justify-center text-white text-xl z-1 select-none">
+                    <div className="absolute inset-0 flex items-center justify-center text-[#e4edf1] text-xl z-1 select-none">
                         Click To Resume Typing
                     </div>
                 )}
