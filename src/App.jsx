@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Result from "./assets/components/Result";
 import Header from "./assets/components/Header"
+import Navbar from "./assets/components/Navbar";
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
 
   return (
     <>
+      <Navbar />
       {!isTestComplete && <Header />}
       <Result onTestComplete={handleTestCompletion} onTestReset={handleTestReset} showResult={isTestComplete} />
     </>
