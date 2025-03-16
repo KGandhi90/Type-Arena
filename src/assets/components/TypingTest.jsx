@@ -6,7 +6,9 @@ const TypingTest = ({ words, userInput, setUserInput, onTypingStart, onTypingEnd
     const [isFocused, setIsFocused] = useState(false);
     const [isActive, setIsActive] = useState(true);
     const inactivityTimerRef = useRef(null);
-    
+    const textContainerRef = useRef(null); // Added ref for the container
+    const charRefs = useRef([]); // Added ref array for character spans
+
     // Reset inactivity timer
     const resetInactivityTimer = () => {
         if (inactivityTimerRef.current) {
@@ -111,6 +113,7 @@ const TypingTest = ({ words, userInput, setUserInput, onTypingStart, onTypingEnd
                                     : "text-[#ff5f5f]"
                                 : "text-[#526777]"}  select-none`
                         }
+                        ref={(el) => (charRefs.current[index] = el)} // Ref on inner span
                     >
                         {char}
                     </span>
@@ -125,6 +128,69 @@ const TypingTest = ({ words, userInput, setUserInput, onTypingStart, onTypingEnd
         }
     }
 
+    // Scroll logic with reset on restart
+    useEffect(() => {
+        const container = textContainerRef.current;
+        if (!container || !charRefs.current.length) return;
+
+        // Reset scroll to top if userInput is empty (indicating a restart)
+        if (userInput === "") {
+            container.scrollTop = 0;
+            return; // Exit early after resetting
+        }
+
+        const charElements = charRefs.current;
+        const wordsArray = words.split(" ");
+        let charIndex = 0;
+        const wordEndIndices = wordsArray.map((word) => {
+            charIndex += word.length; // End of word (before space)
+            const endIndex = charIndex;
+            charIndex += 1; // Skip space
+            return endIndex;
+        }).filter((index) => index < words.length); // Filter out indices beyond string length
+
+        // Detect lines by checking Y positions of characters
+        let lines = [];
+        let currentLine = [];
+        let lastY = null;
+        let lineHeight = null;
+
+        charElements.forEach((charEl, index) => {
+            if (!charEl) return;
+            const rect = charEl.getBoundingClientRect();
+            const currentY = rect.top;
+            if (!lineHeight) lineHeight = rect.height; // Set line height from first character
+
+            if (lastY !== null && Math.abs(currentY - lastY) > lineHeight / 2) {
+                lines.push(currentLine);
+                currentLine = [];
+            }
+            currentLine.push(index);
+            lastY = currentY;
+        });
+        lines.push(currentLine); // Add the last line
+
+        // Find last word of each line
+        const lastWordOfLines = lines.map((line) => {
+            const lineChars = line;
+            const lastWordEndIndex = wordEndIndices.find((endIdx) => 
+                lineChars.includes(endIdx) && endIdx === Math.max(...lineChars.filter(idx => wordEndIndices.includes(idx)))
+            );
+            return lastWordEndIndex !== undefined ? lastWordEndIndex : line[line.length - 1];
+        });
+
+        // Determine current line based on userInput length
+        const currentLineIndex = lines.findIndex((line) => 
+            line.includes(userInput.length - 1) || (userInput.length > line[line.length - 1] && line === lines[lines.length - 1])
+        );
+
+        // Scroll if beyond the first line
+        if (currentLineIndex > 0) {
+            const scrollAmount = currentLineIndex * lineHeight;
+            container.scrollTop = scrollAmount;
+        }
+    }, [userInput, words]);
+
     return (
         <div onClick={handleMouseClick} className="flex justify-center items-center">
             <div
@@ -136,10 +202,19 @@ const TypingTest = ({ words, userInput, setUserInput, onTypingStart, onTypingEnd
                     }
                 }}
             >
-                <div className="p-2" style={{ wordBreak: "normal", wordWrap: "break-word", ...blurEffect() }}>
-                    {renderTextWithCursor()}
+                <div
+                    style={{
+                        overflowY: "auto",
+                        height: "100%",
+                        scrollbarWidth: "none", // Firefox
+                        msOverflowStyle: "none", // IE/Edge
+                    }}
+                    ref={textContainerRef}
+                >
+                    <div className="p-2" style={{ wordBreak: "normal", wordWrap: "break-word", ...blurEffect() }}>
+                        {renderTextWithCursor()}
+                    </div>
                 </div>
-
                 {!isActive && (
                     <div className="absolute inset-0 flex items-center justify-center text-[#e5f7ef] text-xl z-1 select-none">
                         Click To Resume Typing
