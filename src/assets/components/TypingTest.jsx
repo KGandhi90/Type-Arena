@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-const TypingTest = ({ words, userInput, setUserInput, onTypingStart, onTypingEnd, incorrectLetters, setIncorrectLetters }) => {
+const TypingTest = ({ words, userInput, setUserInput, onTypingStart, onTypingEnd, setIncorrectLetters }) => {
     const inputRef = useRef(null);
     const [cursorBlink, setCursorBlink] = useState(true);
     const [isFocused, setIsFocused] = useState(false);
@@ -99,7 +99,7 @@ const TypingTest = ({ words, userInput, setUserInput, onTypingStart, onTypingEnd
                 <span key={index}>
                     {isCursorHere && (
                         <span 
-                            className={`inline-block w-0.5 h-5 bg-[#56c3b7] align-middle ${cursorBlink ? 'opacity-100' : 'opacity-0'} absolute mt-0.5 mr-0.5`}
+                            className={`inline-block w-0.5 h-5 bg-[#43ffaf] align-middle ${cursorBlink ? 'opacity-100' : 'opacity-0'} absolute mt-0.5 mr-0.5`}
                         ></span>
                     )}
                     
@@ -107,9 +107,9 @@ const TypingTest = ({ words, userInput, setUserInput, onTypingStart, onTypingEnd
                         className={
                             `${index < userInput.length
                                 ? userInput[index] === char
-                                    ? "text-[#e4edf1]"
-                                    : "text-[#d44729]"
-                                : "text-[#326984]"}  select-none`
+                                    ? "text-[#e5f7ef]"
+                                    : "text-[#ff5f5f]"
+                                : "text-[#526777]"}  select-none`
                         }
                     >
                         {char}
@@ -128,7 +128,7 @@ const TypingTest = ({ words, userInput, setUserInput, onTypingStart, onTypingEnd
     return (
         <div onClick={handleMouseClick} className="flex justify-center items-center">
             <div
-                className="w-[70vw] h-[9rem] overflow-hidden bg-[#0b1822] relative rounded-lg"
+                className="md:w-[70vw] w-[80vw] h-[10rem] overflow-hidden bg-[#1f232c] relative rounded-lg p-1.5 text-xl"
                 onClick={() => {
                     if(inputRef.current){
                         inputRef.current.focus();
@@ -141,7 +141,7 @@ const TypingTest = ({ words, userInput, setUserInput, onTypingStart, onTypingEnd
                 </div>
 
                 {!isActive && (
-                    <div className="absolute inset-0 flex items-center justify-center text-[#e4edf1] text-xl z-1 select-none">
+                    <div className="absolute inset-0 flex items-center justify-center text-[#e5f7ef] text-xl z-1 select-none">
                         Click To Resume Typing
                     </div>
                 )}

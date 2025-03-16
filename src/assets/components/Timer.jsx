@@ -87,22 +87,23 @@ const Timer = () => {
     return (
         <div>
             <div className="mb-4 mt-2 flex justify-center items-center">
-                {[15, 30, 60, 120].map((time) => (
+                {[15, 30, 60].map((time) => (
                     <button
                         key={time}
-                        className={"mr-4 bg-[#0b1822] text-[#326984] p-1 rounded-md w-[7rem]"}
+                        className={"mr-4 bg-[#1f232c] text-[#526777] p-1 rounded-md w-[7rem] hover:text-[#e5f7ef] focus:outline-none focus:ring-2 focus:ring-[#e5f7ef]"}
                         onClick={() => handleTimeSelection(time)}
                     >
                         {time} Seconds
                     </button>
                 ))}
+                <button className="bg-[#1f232c] text-[#526777] p-1 rounded-md w-[7rem] hover:text-[#e5f7ef] focus:outline-none focus:ring-2 focus:ring-[#e5f7ef]" onClick={() => handleTimeSelection(120)}>120 Seconds</button>
             </div>
 
             {/* Show timer and typing test only if test is not complete */}
             {!isTestComplete && (
                 <>
                     <div className="mt-4">
-                        <h2 className="text-xl text-[#56c3b7]">{timer}</h2>
+                        <h2 className="text-xl text-[#43ffaf]">{timer}</h2>
                     </div>
                     <div className="">
                         <GetWords numberOfWords={numberOfWords} onWordsGenerated={setWords} reload={reload} />
