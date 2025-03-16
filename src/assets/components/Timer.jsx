@@ -90,13 +90,13 @@ const Timer = () => {
                 {[15, 30, 60].map((time) => (
                     <button
                         key={time}
-                        className={"mr-4 bg-[#1f232c] text-[#526777] p-1 rounded-md w-[7rem] hover:text-[#e5f7ef] focus:outline-none focus:ring-2 focus:ring-[#e5f7ef]"}
+                        className={`mr-4 bg-[#1f232c] text-[#526777] p-1 rounded-md w-[7rem] hover:text-[#e5f7ef] focus:outline-none focus:ring-2 focus:ring-[#e5f7ef] ${selectedTime === time ? 'text-[#43ffaf]' : 'text-[526777]'}`}
                         onClick={() => handleTimeSelection(time)}
                     >
                         {time} Seconds
                     </button>
                 ))}
-                <button className="bg-[#1f232c] text-[#526777] p-1 rounded-md w-[7rem] hover:text-[#e5f7ef] focus:outline-none focus:ring-2 focus:ring-[#e5f7ef]" onClick={() => handleTimeSelection(120)}>120 Seconds</button>
+                <button className={`bg-[#1f232c] text-[#526777] p-1 rounded-md w-[7rem] hover:text-[#e5f7ef] focus:outline-none focus:ring-2 focus:ring-[#e5f7ef] ${selectedTime === 120 ? 'text-[#43ffaf]' : 'text-[526777]'}`} onClick={() => handleTimeSelection(120)}>120 Seconds</button>
             </div>
 
             {/* Show timer and typing test only if test is not complete */}
