@@ -53,10 +53,10 @@ const NoOfWords = () => {
             {!isTestComplete && (
                 <>
                     <div className="mb-4 mt-2 flex justify-center items-center">
-                        <button className={`mr-4 bg-[#1f232c] text-[#526777] p-1 rounded-md w-[7rem] focus:outline-none focus:ring-2 focus:ring-[#e5f7ef] hover:text-[#e5f7ef] ${numberOfWords === 10 ? 'text-[#43ffaf]' : 'text-[#526777]'}`} onClick={() => handleButtonClick(10)}>10 Words</button>
-                        <button className={`mr-4 bg-[#1f232c] text-[#526777] p-1 rounded-md w-[7rem] focus:outline-none focus:ring-2 focus:ring-[#e5f7ef] hover:text-[#e5f7ef] ${numberOfWords === 25 ? 'text-[#43ffaf]' : 'text-[#526777]'}`} onClick={() => handleButtonClick(25)}>25 Words</button>
-                        <button className={`mr-4 bg-[#1f232c] text-[#526777] p-1 rounded-md w-[7rem] focus:outline-none focus:ring-2 focus:ring-[#e5f7ef] hover:text-[#e5f7ef] ${numberOfWords === 50 ? 'text-[#43ffaf]' : 'text-[#526777]'}`} onClick={() => handleButtonClick(50)}>50 Words</button>
-                        <button className={`bg-[#1f232c] text-[#526777] p-1 rounded-md w-[7rem] focus:outline-none focus:ring-2 focus:ring-[#e5f7ef] hover:text-[#e5f7ef] ${numberOfWords === 100 ? 'text-[#43ffaf]' : 'text-[#526777]'}`} onClick={() => handleButtonClick(100)}>100 Words</button>
+                        <button className={`mr-4 bg-[#1f232c] p-1 rounded-md w-[7rem] focus:outline-none focus:ring-2 focus:ring-[#e5f7ef] hover:text-[#e5f7ef] ${numberOfWords === 10 ? 'text-[#43ffaf]' : 'text-[#526777]'}`} onClick={() => handleButtonClick(10)}>10 Words</button>
+                        <button className={`mr-4 bg-[#1f232c] p-1 rounded-md w-[7rem] focus:outline-none focus:ring-2 focus:ring-[#e5f7ef] hover:text-[#e5f7ef] ${numberOfWords === 25 ? 'text-[#43ffaf]' : 'text-[#526777]'}`} onClick={() => handleButtonClick(25)}>25 Words</button>
+                        <button className={`mr-4 bg-[#1f232c] p-1 rounded-md w-[7rem] focus:outline-none focus:ring-2 focus:ring-[#e5f7ef] hover:text-[#e5f7ef] ${numberOfWords === 50 ? 'text-[#43ffaf]' : 'text-[#526777]'}`} onClick={() => handleButtonClick(50)}>50 Words</button>
+                        <button className={`bg-[#1f232c] p-1 rounded-md w-[7rem] focus:outline-none focus:ring-2 focus:ring-[#e5f7ef] hover:text-[#e5f7ef] ${numberOfWords === 100 ? 'text-[#43ffaf]' : 'text-[#526777]'}`} onClick={() => handleButtonClick(100)}>100 Words</button>
                     </div>
                     <div>
                         <GetWords numberOfWords={numberOfWords} onWordsGenerated={setWords} reload={reload} />

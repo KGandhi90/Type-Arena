@@ -8,10 +8,10 @@ const Header = () => {
     return(
         <div className="p-4">
             <div className="text-center">
-                <button onClick={() => setActiveComponent("words")} className={`bg-[#1f232c] text-[#526777] rounded-md mr-4 p-2 w-[5rem] hover:text-[#e5f7ef] ${activeComponent === "words" ? 'text-[#43ffaf]' : 'text-[#526777]'}`}>
+                <button onClick={() => setActiveComponent("words")} className={`bg-[#1f232c] rounded-md mr-4 p-2 w-[5rem] hover:text-[#e5f7ef] ${activeComponent === "words" ? 'text-[#43ffaf]' : 'text-[#526777]'}`}>
                     Words
                 </button>
-                <button onClick={() => setActiveComponent("timer")} className={`bg-[#1f232c] text-[#526777] rounded-md p-2 w-[5rem] hover:text-[#e5f7ef] ${activeComponent === "timer" ? 'text-[#43ffaf]' : 'text-[#526777]'}`}>
+                <button onClick={() => setActiveComponent("timer")} className={`bg-[#1f232c] rounded-md p-2 w-[5rem] hover:text-[#e5f7ef] ${activeComponent === "timer" ? 'text-[#43ffaf]' : 'text-[#526777]'}`}>
                     Time
                 </button>
             </div>
