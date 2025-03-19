@@ -6,7 +6,7 @@ const Navbar = () => {
                 <h1 className="cursor-pointer select-none">Typing Arena</h1>
             </div>
             <div className="h-[30px] w-[30px]">
-                <a href="https://www.github.com/KGandhi90" target="_blank"><img src="/github-logo.png" alt="GitHub Logo" /></a>
+                <a href="https://www.github.com/KGandhi90/Typing-Arena" target="_blank"><img src="/github-logo.png" alt="GitHub Logo" /></a>
             </div>
         </div>
     )
